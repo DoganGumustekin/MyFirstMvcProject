@@ -1,23 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using TrialProjectMVC.DBContext;
-using TrialProjectMVC.Models;
+using TrialProject.DataAccess.DBContext;
+using TrialProject.DataAccess.Repository;
+using TrialProject.DataAccess.Repository.IRepository;
+using TrialProject.Models;
 
-namespace TrialProjectMVC.Controllers
+namespace TrialProjectMVC.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class PhonexController : Controller
     {
-        private readonly TrialEFContextMVC _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PhonexController(TrialEFContextMVC context)
+        public PhonexController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
-        #region Ekleme
+        #region PhoneAdd
         public IActionResult Index()
         {
-            List<PhoneModel> phoneModels = _context.Phone.ToList();
+            List<PhoneModel> phoneModels = _unitOfWork.Phonex.GetAll().ToList();
             return View(phoneModels);
         }
 
@@ -45,8 +48,8 @@ namespace TrialProjectMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Phone.Add(obj);
-                _context.SaveChanges();
+                _unitOfWork.Phonex.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Yeni Kayıt Eklendi";
                 return RedirectToAction("Index");
             }
@@ -54,7 +57,7 @@ namespace TrialProjectMVC.Controllers
         }
         #endregion
 
-        #region Güncelleme
+        #region PhoneUpdate
         public IActionResult Edit(int? id)
         {
             if (id == null || id == 0)
@@ -62,7 +65,7 @@ namespace TrialProjectMVC.Controllers
                 TempData["error"] = "Kayıt Bulunamadı...";
                 return NotFound();
             }
-            PhoneModel phoneModel = _context.Phone.Find(id);
+            PhoneModel phoneModel = _unitOfWork.Phonex.Get(p=>p.PhoneId==id);
             if (phoneModel == null)
             {
                 TempData["error"] = "Kayıt Bulunamadı...";
@@ -76,8 +79,8 @@ namespace TrialProjectMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Phone.Update(obj);
-                _context.SaveChanges();
+                _unitOfWork.Phonex.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Kayıt Güncellendi";
                 return RedirectToAction("Index");
             }
@@ -85,7 +88,7 @@ namespace TrialProjectMVC.Controllers
         }
         #endregion
 
-        #region Silme
+        #region PhoneDelete
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -93,7 +96,7 @@ namespace TrialProjectMVC.Controllers
                 TempData["error"] = "Kayıt Bulunamadı...";
                 return NotFound();
             }
-            PhoneModel phoneModel = _context.Phone.Find(id);
+            PhoneModel phoneModel = _unitOfWork.Phonex.Get(p => p.PhoneId == id);
             if (phoneModel == null)
             {
                 TempData["error"] = "Kayıt Bulunamadı...";
@@ -105,14 +108,14 @@ namespace TrialProjectMVC.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            PhoneModel? phoneModel = _context.Phone.Find(id);
+            PhoneModel phoneModel = _unitOfWork.Phonex.Get(p => p.PhoneId == id);
             if (phoneModel == null)
             {
                 TempData["error"] = "Kayıt Bulunamadı...";
                 return NotFound();
             }
-            _context.Remove(phoneModel);
-            _context.SaveChanges();
+            _unitOfWork.Phonex.Remove(phoneModel);
+            _unitOfWork.Save();
             TempData["success"] = "Kayıt Silindi";
             return RedirectToAction("Index");
         }

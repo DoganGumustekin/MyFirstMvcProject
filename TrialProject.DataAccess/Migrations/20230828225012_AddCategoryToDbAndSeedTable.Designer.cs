@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TrialProjectMVC.DBContext;
+using TrialProject.DataAccess.DBContext;
 
 #nullable disable
 
-namespace TrialProjectMVC.Migrations
+namespace TrialProject.DataAccess.Migrations
 {
     [DbContext(typeof(TrialEFContextMVC))]
-    [Migration("20230825191729_SeedPhoneTable")]
-    partial class SeedPhoneTable
+    [Migration("20230828225012_AddCategoryToDbAndSeedTable")]
+    partial class AddCategoryToDbAndSeedTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace TrialProjectMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TrialProjectMVC.Models.PhoneModel", b =>
+            modelBuilder.Entity("TrialProject.Models.PhoneModel", b =>
                 {
                     b.Property<int>("PhoneId")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,8 @@ namespace TrialProjectMVC.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("PhoneId");
 
@@ -47,19 +48,19 @@ namespace TrialProjectMVC.Migrations
                     b.HasData(
                         new
                         {
-                            PhoneId = 1,
+                            PhoneId = -1,
                             Address = "Istanbul",
                             Phone = "123123123"
                         },
                         new
                         {
-                            PhoneId = 2,
+                            PhoneId = -2,
                             Address = "Ankara",
                             Phone = "3123123"
                         },
                         new
                         {
-                            PhoneId = 3,
+                            PhoneId = -3,
                             Address = "Izmir",
                             Phone = "23123123"
                         });

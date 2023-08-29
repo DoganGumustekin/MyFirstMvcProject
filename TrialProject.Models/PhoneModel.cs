@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace TrialProjectMVC.Models
+namespace TrialProject.Models
 {
     public class PhoneModel
     {

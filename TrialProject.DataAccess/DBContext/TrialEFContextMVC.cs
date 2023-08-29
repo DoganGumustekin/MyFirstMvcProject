@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
-using TrialProjectMVC.Models;
+using TrialProject.Models;
 
-namespace TrialProjectMVC.DBContext
+namespace TrialProject.DataAccess.DBContext
 {
     public class TrialEFContextMVC : DbContext
     {
