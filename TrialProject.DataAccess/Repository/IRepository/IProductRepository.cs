@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrialProject.Models;
 
 namespace TrialProject.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IProductRepository : IRepository<ProductModel>
     {
-        IPhonexRepository Phonex { get; }
-        IProductRepository Product { get; }
-
-        void Save();
+        void Update(ProductModel phone);
     }
 }

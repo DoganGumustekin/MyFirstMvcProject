@@ -9,15 +9,15 @@ using TrialProject.Models;
 
 namespace TrialProject.DataAccess.Repository
 {
-    public class PhonexRepository : Repository<PhoneModel>, IPhonexRepository
+    public class ProductRepository : Repository<ProductModel>, IProductRepository
     {
         private TrialEFContextMVC _trialEFContextMVC;
-        public PhonexRepository(TrialEFContextMVC trialEFContextMVC) : base(trialEFContextMVC)
+        public ProductRepository(TrialEFContextMVC trialEFContextMVC) : base(trialEFContextMVC)
         {
             _trialEFContextMVC = trialEFContextMVC;
         }
 
-        public void Update(PhoneModel phone)
+        public void Update(ProductModel phone)
         {
             _trialEFContextMVC.Update(phone);
         }
